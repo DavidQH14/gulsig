@@ -3,6 +3,31 @@ import Image from 'next/image'
 import { LogoFooter, IconFacebook, IconInstagram, LogoGoplek } from 'ui'
 
 export default function Footer(){
+
+    const gaFooter = function(category, action, label) {
+        if ("function" === typeof gtag
+            && "string" === typeof category
+            && "string" === typeof action) {
+            var object = {
+                "event_action": action,
+                "event_label" : label || ''
+            };
+
+            // Send to Google Analytics.
+            gtag('event', category, object);
+
+            // Print in console.
+            if ("console" in window) {
+                console.log(
+                    'ga: [category: %s, action: %s, label: %s]',
+                    category,
+                    object['event_action'],
+                    object['event_label']
+                );
+            }
+        }
+    }
+
     return(
         <section className='' id='footer'>
             <div className='holder'>
@@ -26,12 +51,12 @@ export default function Footer(){
                         <div className='redes'>
                             <h4>Síguenos en</h4>
                             <div className='icons'>
-                                <div className='facebook'>
+                                <a href='https://www.facebook.com' className='facebook' onClick={gaFooter('Contacto', 'Abrir Facebook', '')} target='_blank' rel="noopener noreferrer">
                                     <Image src={IconFacebook} layout="fill" alt='Icono Facebook' />
-                                </div>
-                                <div className='instagram'>
+                                </a>
+                                <a href='https://www.instagram.com' className='instagram' onClick={gaFooter('Contacto', 'Abrir Instagram', '')} target='_blank' rel="noopener noreferrer">
                                     <Image src={IconInstagram} layout="fill" alt='Icono Instagram' />
-                                </div>
+                                </a>
                             </div>
                         </div>
                         <div className='logo-goplek'>
